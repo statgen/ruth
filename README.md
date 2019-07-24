@@ -1,4 +1,4 @@
-# ruth - Robust Unified Hardy-Weinberg Equilibrium Test
+# RUTH - Robust Unified Hardy-Weinberg Equilibrium Test
 
 `ruth` is a software to perform robust unified Hardy-Weinberg Equilbrium (HWE) tests for sequence-based genotypes under population structure.
 
