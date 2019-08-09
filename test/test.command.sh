@@ -1,0 +1,1 @@
+../bin/ruth --evec ./random.genotypes.100.samples.100.variants.V --vcf ./random.genotypes.100.samples.100.variants.vcf.gz --field PL --lambda 0 --lrt-em --site-only --out ./output/random.genotypes.100.samples.100.variants.RUTH.output.vcf.gz
