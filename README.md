@@ -1,20 +1,29 @@
-# ruth - Robust Unified Hardy-Weinberg Equilibrium Test
+# RUTH - Robust Unified Hardy-Weinberg Equilibrium Test
 
-`ruth` is a software to perform robust unified Hardy-Weinberg Equilbrium (HWE) test for sequence-based genotypes under population structure.
+`ruth` is a software to perform robust unified Hardy-Weinberg Equilbrium (HWE) tests for sequence-based genotypes under population structure.
 
 ### Quick Overview
 
-TBA
+Inputs: 
+ * A genotype file in VCF or BCF format, with either genotype likelihoods (PLs or GLs) or best-guess genotypes (GTs)
+ * Principal components (PCs) or some other ancestry summary statistics for the samples in the VCF or BCF file
+ 
+Outputs:
+ * Robust Hardy-Weinberg Equilibrium statistics, which accounts for the effects of population stratification by using principal components
 
 ### Introduction
 
 #### Overview
 
-TBA
+'ruth' (Robust Unified Test for HWE) uses information from genotypes and principal components to perform either a likelihood ratio test or a score test to estimate variants' deviation from HWE after adjusting for population structure. 
 
 ### Tips for running
 
-TBA
+ * The user needs to have a **genotype file in VCF or BCF format** and **estimated PCs** for the samples 
+     * If PCs are not available, they can be calculated if you have access to the aligned sequences (BAM or CRAM files) using VerifyBamID2, available here: https://github.com/Griffan/VerifyBamID
+ * To decrease the size of the output file, use the **--site-only** option to suppress outputting individual-level genotypes
+ * If available, we recommend using genotype likelihoods (either "--field PL" or "--field GL")
+ * We currently recommend setting lambda to 0 (**--lambda 0**), and using the likelihood ratio EM test (**--lrt-em**)
 
 ### Installing ruth
 
@@ -46,7 +55,7 @@ $ make
 </pre>
 
 ### Using ruth
-All softwares use a self-documentation utility. You can run each utility with -man or -help option to see the command line usages. Also, we offer some general practice with an example in tutorial (data is available here: [TBA])
+All software use a self-documentation utility. You can run each utility with -man or -help option to see the command line usages. Also, we offer some general practice with a tutorial example (data available here: [TBA])
 
 <pre>
 $(RUTH_HOME)/bin/ruth --vcf [Input VCF file] --evec [Input EigenVector] --out [Output]
@@ -91,20 +100,18 @@ Options to specify when chunking is used
    --interval    [STR: ]             : Interval file name used for chunking (specify only when chunking is used without --ref
    --region      [STR: ]             : Target region to focus on
 
-Options for input SAM/BAM/CRAM 
-   --sam [STR: ] : Input SAM/BAM/CRAM file. Must be sorted by coordinates and indexed
-   --tag-group [STR: CB] : Tag representing readgroup or cell barcodes, in the case to partition the BAM file into multiple groups. For 10x genomics, use CB
-   --tag-UMI [STR: UB] : Tag representing UMIs. For 10x genomiucs, use UB
-
-Options for input VCF/BCF
-   --vcf [STR: ] : Input VCF/BCF file, containing the AC and AN field
-   --sm [V_STR: ] : List of sample IDs to compare to (default: use all)
-   --sm-list [STR: ] : File containing the list of sample IDs to compare
 </pre>
 
 ### Interpretation of output files
 
-TBA
+ * The definitions of the added INFO fields can be found in the header of the output VCF or BCF file
+ * The statistic of interest is **HWE_SLP_I**, which is the signed log10 P-value of the HWE test with individual-specific allele frequencies, adjusted for population structure
+    * HWE_SLP_I < 0 indicates **an excess of heterozygotes**
+    * HWE_SLP_I > 0 indicates **heterozygote depletion**
+    * An excess of heterozygotes can be a telltale sign of certain types of technical artefacts
+ * Any P-value threshold represents a tradeoff between sensitivity and specificity
+    * Using a more stringent threshold will decrease false positives but increase false negatives
+    * Using a less stringent threshold will have the opposite effect
+ * With low coverage data, a slightly more stringent threshold (for example, P < 1e-4) can help with reducing false positives
+ * With high coverage data, a less stringent threshold (for example, P < 0.01 or P < 0.001) can lead to improved power while maintaining good false positive performance
   
-
-
