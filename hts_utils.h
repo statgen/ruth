@@ -35,6 +35,7 @@
 #include <map>
 #include <queue>
 #include <sys/stat.h>
+#include <cassert>
 
 extern "C" {
 #include "htslib/kseq.h"
