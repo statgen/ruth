@@ -26,6 +26,7 @@ int32_t main(int32_t argc, char** argv) {
   std::string field;
   double gtError = 0.005;
   double maxLambda = 1.0;
+  int32_t iterEM = 20;
 
   bfr.vfilt.maxAlleles = 2;
   bfr.verbose = 100;
@@ -42,6 +43,7 @@ int32_t main(int32_t argc, char** argv) {
     LONG_STRING_PARAM("field",&field, "FORMAT field in VCF to extract the genotype likelihood or genotypes from. Only PL, GL, GT are allowed currently")
     LONG_DOUBLE_PARAM("gt-error",&gtError, "Error rates for GT field when --field GT option is used. Ignored for other fields")
     LONG_DOUBLE_PARAM("lambda",&maxLambda,"Max lambda parameter")
+    LONG_INT_PARAM("iter", &iterEM, "Number of iterations to run for the E-M algorithm")
 
     LONG_PARAM_GROUP("Output Options", NULL)
     LONG_STRING_PARAM("out",&outVcf, "(REQUIRED) Output VCF file to write with ISHWEZ and ISIBC statistics and IF format field")

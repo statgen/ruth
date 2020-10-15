@@ -307,7 +307,7 @@ bool frequency_estimator::score_test_hwe(bool use_isaf) {
       if ( nelderMead )
 	estimate_isaf_simplex();
       else
-	estimate_isaf_em();
+	estimate_isaf_em(iterEM);
 
       sum1 = l0*(1.-ifs[i])*(1.-ifs[i]) + 2*l1*(1.-ifs[i])*ifs[i] + l2*ifs[i]*ifs[i] + 1e-100;
       ph1 = 2*l1*(1.-ifs[i])*ifs[i];
