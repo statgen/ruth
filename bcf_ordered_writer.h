@@ -33,10 +33,21 @@
 #include <map>
 #include <queue>
 #include <list>
+extern "C" {
 #include "htslib/vcf.h"
 #include "htslib/vcfutils.h"
 #include "htslib/tbx.h"
+}
 #include "hts_utils.h"
+
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
+  //  int ks_resize2(kstring_t*, unsigned long);
+//#ifdef __cplusplus
+//}
+//#endif
+
 
 /**
  * A class for writing ordered VCF/BCF files.
