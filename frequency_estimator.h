@@ -65,7 +65,7 @@ class frequency_estimator : public VectorFunc {
   void estimate_isaf_lrt();  
   void estimate_isaf_simplex();
   
-  bool score_test_hwe(bool use_isaf = true);
+  bool score_test_hwe(bool use_isaf = true, int32_t iterEM = 20);
   //bool lr_test_hwe(bool use_isaf = true);  
   bool update_variant();
   bool update_gt_gq(bool update_gq = true);

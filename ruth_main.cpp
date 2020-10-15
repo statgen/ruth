@@ -191,7 +191,7 @@ int32_t main(int32_t argc, char** argv) {
     else if ( lrtEM )
       freqest.estimate_isaf_em_hwd();      
     else
-      freqest.score_test_hwe(true);
+      freqest.score_test_hwe(true, iterEM);
     freqest.update_variant();
 
     //notice("car %d %d",bcf_hdr_nsamples(odw.hdr),nv->n_sample);    

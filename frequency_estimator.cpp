@@ -272,7 +272,7 @@ double frequency_estimator::estimate_pooled_af_em(int32_t maxiter) {
   return pooled_af;
 }
 
-bool frequency_estimator::score_test_hwe(bool use_isaf) {
+bool frequency_estimator::score_test_hwe(bool use_isaf, int32_t iterEM) {
   estimate_pooled_af_em();    
     
   double pp0 = (1.-pooled_af)*(1.-pooled_af);
