@@ -493,7 +493,7 @@ std::string& BCFFilteredReader::get_var_ID(bcf_hdr_t* hdr, bcf1_t* v) {
   varID.assign(bcf_get_chrom(cdr.hdr,v));
   varID += ":";
   char buf[256];
-  sprintf(buf,"%d",v->pos);
+  sprintf(buf,"%d",(int32_t)v->pos);
   varID += buf;
   for(int32_t i=0; i < v->n_allele; ++i) {
     varID += (i == 0 ? ":" : "_");
@@ -757,7 +757,12 @@ bcf1_t* BCFFilteredReader::read() {
       ++nRead;
       if ( nRead % verbose == 0 )
 	notice("Reading %d variants at %s:%d, Skipping %d, Missing %d.", nRead, bcf_hdr_id2name(cdr.hdr, vbufs[vidx]->rid), vbufs[vidx]->pos+1, nSkip, nMiss);      
-      if ( passed_vfilter() ) return cursor();
+      if ( passed_vfilter() ) {
+	bcf1_t* v = cursor();
+	set_ploidies_by_sex(v);
+	return v;	
+	//return cursor();
+      }
       else {
 	//vidx = (vidx + vbufs.size() - 1) % vbufs.size();
 	//--nbuf;	
@@ -785,11 +790,11 @@ double BCFFilteredReader::calculate_af(bool useInfoField,
       int32_t* pacs = NULL;
       int32_t* pans = NULL;    
       int32_t n_acs = 0, n_ans = 0;
+      //notice("WARNING: Cannot find AF field from INFO field in VCF file, now calculate AF from AC/AN");
       if ( bcf_get_info_int32(hdr, v, "AC", &pacs, &n_acs) < 0 ) // no AC
-	error("Cannot find AC field from INFO field");
+          error("Cannot find AC field from INFO field at %s:%d",bcf_get_chrom(hdr, v), bcf_get_end_pos1(v));
       if ( bcf_get_info_int32(hdr, v, "AN", &pans, &n_ans) < 0 ) // no AN
-	error("Cannot find AC field from INFO field");
-
+          error("Cannot find AN field from INFO field at %s:%d",bcf_get_chrom(hdr, v), bcf_get_end_pos1(v));
       double af = (double)pacs[0]/(double)pans[0];
       free(pacs);
       free(pans);

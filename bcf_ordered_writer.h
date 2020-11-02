@@ -85,6 +85,11 @@ class BCFOrderedWriter
     BCFOrderedWriter(std::string output_vcf_file_name, int32_t _window=0);
 
     /**
+    * Closes when destroyed.
+    */
+    ~BCFOrderedWriter();
+
+    /**
      * Duplicates a hdr and sets it.
      */
     void set_hdr(bcf_hdr_t *hdr);

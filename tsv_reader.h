@@ -5,10 +5,12 @@
 #include <cstring>
 #include <climits>
 #include <vector>
+extern "C" {
 #include "htslib/kstring.h"
 #include "htslib/kseq.h"
 #include "htslib/hts.h"
 #include "htslib/tbx.h"
+}
 #include "Error.h"
 
 class tsv_reader {

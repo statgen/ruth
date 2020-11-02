@@ -78,6 +78,12 @@ BCFOrderedWriter::BCFOrderedWriter(std::string output_vcf_file_name, int32_t _wi
     linked_hdr = false;
 }
 
+BCFOrderedWriter::~BCFOrderedWriter()
+{
+  this->close();
+}
+
+
 /**
  * Duplicates a hdr and sets it.
  */
@@ -109,7 +115,11 @@ void BCFOrderedWriter::link_hdr(bcf_hdr_t *hdr)
  */
 void BCFOrderedWriter::write_hdr()
 {
-    bcf_hdr_write(file, hdr);
+    if (bcf_hdr_write(file, hdr) < 0)
+    {
+        fprintf(stderr, "[%s:%d %s] Failed to write header: %s\n", __FILE__,__LINE__,__FUNCTION__, file_name.c_str());
+        exit(1);
+    }
 }
 
 /**
@@ -139,10 +149,10 @@ void BCFOrderedWriter::write(bcf1_t *v)
 
                 if (i==buffer.end())
                 {
-                    int32_t cutoff_pos1 =  std::max((int32_t)bcf_get_pos1(buffer.front())-window,1);
+		  int32_t cutoff_pos1 =  std::max(bcf_get_pos1(buffer.front())-window,static_cast<hts_pos_t>(1));
                     if (bcf_get_pos1(v)<cutoff_pos1)
                     {
-                        fprintf(stderr, "[%s:%d %s] Might not be sorted for window size %d at current record %s:%d < %d (%d [last record] - %d), please increase window size to at least %d.\n", __FILE__,__LINE__,__FUNCTION__, window, bcf_get_chrom(hdr, v), bcf_get_pos1(v), cutoff_pos1, bcf_get_pos1(buffer.front()), window, bcf_get_pos1(buffer.front())-bcf_get_pos1(v)+1);
+		                    fprintf(stderr, "[%s:%d %s] Might not be sorted for window size %d at current record %s:%d < %d (%d [last record] - %d), please increase window size to at least %d.\n", __FILE__,__LINE__,__FUNCTION__, window, bcf_get_chrom(hdr, v), (int32_t)bcf_get_pos1(v), (int32_t)cutoff_pos1, (int32_t)bcf_get_pos1(buffer.front()), window, (int32_t)bcf_get_pos1(buffer.front())-(int32_t)bcf_get_pos1(v)+1);
                     }
                 }
 
@@ -164,7 +174,11 @@ void BCFOrderedWriter::write(bcf1_t *v)
     }
     else
     {
-        bcf_write(file, hdr, v);
+        if (bcf_write(file, hdr, v) < 0)
+        {
+            fprintf(stderr, "[%s:%d %s] Failed to write VCF/BCF record: %s\n", __FILE__,__LINE__,__FUNCTION__, file_name.c_str());
+            exit(1);
+        }
     }
 }
 
@@ -214,7 +228,11 @@ void BCFOrderedWriter::flush(bool force)
     {
         while (!buffer.empty())
         {
-            bcf_write(file, hdr, buffer.back());
+            if (bcf_write(file, hdr, buffer.back()) < 0)
+            {
+                fprintf(stderr, "[%s:%d %s] Failed to write VCF/BCF record: %s\n", __FILE__,__LINE__,__FUNCTION__, file_name.c_str());
+                exit(1);
+            }
             store_bcf1_into_pool(buffer.back());
             buffer.pop_back();
         }
@@ -223,13 +241,17 @@ void BCFOrderedWriter::flush(bool force)
     {
         if (buffer.size()>1)
         {
-            int32_t cutoff_pos1 =  std::max((int32_t)bcf_get_pos1(buffer.front())-window,1);
+	  int32_t cutoff_pos1 =  std::max(bcf_get_pos1(buffer.front())-window,static_cast<hts_pos_t>(1));
 
             while (buffer.size()>1)
             {
                 if (bcf_get_pos1(buffer.back())<=cutoff_pos1)
                 {
-                    bcf_write(file, hdr, buffer.back());
+                    if (bcf_write(file, hdr, buffer.back()) < 0)
+                    {
+                        fprintf(stderr, "[%s:%d %s] Failed to write VCF/BCF record: %s\n", __FILE__,__LINE__,__FUNCTION__, file_name.c_str());
+                        exit(1);
+                    }
                     store_bcf1_into_pool(buffer.back());
                     buffer.pop_back();
                 }
@@ -247,7 +269,13 @@ void BCFOrderedWriter::flush(bool force)
  */
 void BCFOrderedWriter::close()
 {
-    flush(true);
-    bcf_close(file);
+    if (file)
+    {
+        flush(true);
+   
+        bcf_close(file);
+        file = nullptr;
+    }
     if (!linked_hdr && hdr) bcf_hdr_destroy(hdr);
+    hdr = nullptr; 
 }

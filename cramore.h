@@ -23,9 +23,9 @@
 //#include "bcf_ordered_writer.h"
 #include "hts_utils.h"
 
-extern "C" {
-  size_t hts_realloc_or_die(unsigned long, unsigned long, unsigned long, unsigned long, int, void**, char const*);
-}
+//extern "C" {
+//  size_t hts_realloc_or_die(unsigned long, unsigned long, unsigned long, unsigned long, int, void**, char const*);
+//}
 
 // bcftools's code
 //#include "filter.h"

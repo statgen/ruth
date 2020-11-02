@@ -108,8 +108,8 @@ bool frequency_estimator::set_hdr(bcf_hdr_t* _hdr, bcf_hdr_t* _wdr ) {
       sprintf(buffer,"##FORMAT=<ID=IF,Number=1,Type=Float,Description=\"Individual-specific allele frequencies\">\n");
       bcf_hdr_append(wdr, buffer);
     }
-    bcf_hdr_sync(wdr);
-    return true;
+    return ( bcf_hdr_sync(wdr) == 0 );
+    //return true;
   }
   else return false;
 }
