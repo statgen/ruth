@@ -39,7 +39,7 @@ In case any required libraries is missing, you may specify customized installing
 
 <pre>
 For libhts:
-  - $ cmake -DHTS_INCLUDE_DIRS=/hts_absolute_path/include/  -DHTS_LIBRARIES=/hts_absolute_path/lib/libhts.a ..
+  - $ cmake -DHTS_INCLUDE_DIRS=/hts_absolute_path/ -DHTS_LIBRARIES=/hts_absolute_path/libhts.a ..
 
 For bzip2:
   - $ cmake -DBZIP2_INCLUDE_DIRS=/bzip2_absolute_path/include/ -DBZIP2_LIBRARIES=/bzip2_absolute_path/lib/libbz2.a ..
