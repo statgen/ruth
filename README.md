@@ -114,4 +114,10 @@ Options to specify when chunking is used
     * Using a less stringent threshold will have the opposite effect
  * With low coverage data, a slightly more stringent threshold (for example, P < 1e-4) can help with reducing false positives
  * With high coverage data, a less stringent threshold (for example, P < 0.01 or P < 0.001) can lead to improved power while maintaining good false positive performance
+
+### Citation
+
+If you want to cite RUTH for your publication, please use the following information:
+
+Kwong AM, Blackwell TW, LeFaive J, de Andrade M, Barnard J, Barnes KC, Blangero J, Boerwinkle E, Burchard EG, Cade BE, Chasman DI, Chen H, Conomos MP, Cupples LA, Ellinor PT, Eng C, Gao Y, Guo X, Irvin MR, Kelly TN, Kim W, Kooperberg C, Lubitz SA, Mak ACY, Manichaikul AW, Mathias RA, Montasser ME, Montgomery CG, Musani S, Palmer ND, Peloso GM, Qiao D, Reiner AP, Roden DM, Shoemaker MB, Smith JA, Smith NL, Su JL, Tiwari HK, Weeks DE, Weiss ST; NHLBI Trans-Omics for Precision Medicine (TOPMed) Consortium; TOPMed Analysis Working Group; Scott LJ, Smith AV, Abecasis GR, Boehnke M, Kang HM. Robust, flexible, and scalable tests for Hardy-Weinberg equilibrium across diverse ancestries. Genetics. 2021 May 17;218(1):iyab044. doi: [10.1093/genetics/iyab044](https://doi.org/10.1093%2Fgenetics%2Fiyab044). PMID: [33720349](https://pubmed.ncbi.nlm.nih.gov/33720349/); PMCID: [PMC8128395](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8128395/)
   
