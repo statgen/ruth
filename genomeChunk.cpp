@@ -187,11 +187,11 @@ void genomeChunk::setFileName() {
       current_file_name += chunk_intervals.it->chrom;
       break;
     case GENOME_CHUNK_TYPE_BEG:
-      sprintf(buf, "%d", chunk_intervals.it->beg1);
+      snprintf(buf, sizeof(buf), "%d", chunk_intervals.it->beg1);
       current_file_name += buf;
       break;
     case GENOME_CHUNK_TYPE_END:
-      sprintf(buf, "%d", chunk_intervals.it->end0);
+      snprintf(buf, sizeof(buf), "%d", chunk_intervals.it->end0);
       current_file_name += buf;
       break;
     default:

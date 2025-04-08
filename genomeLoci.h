@@ -22,7 +22,7 @@ class genomeLocus {
   char buf[255];
 
   genomeLocus(const char* c, int32_t b, int32_t e) : chrom(c), beg1(b), end0(e) {
-    sprintf(buf,"%s:%d-%d",c,b,e);
+    snprintf(buf,sizeof(buf),"%s:%d-%d",c,b,e);
   }
 
   // convert [chr]:[beg1]-[end0] string int32_to int32_terval

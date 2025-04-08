@@ -374,7 +374,7 @@ void Matrix::Print(FILE * f, int r, int c)
 
     char dimensions[30];
 
-    sprintf(dimensions, "[%d x %d]", r, c);
+    snprintf(dimensions, sizeof(dimensions), "[%d x %d]", r, c);
 
     int columnZero = label.size() > 15 ? label.size() : 15;
 

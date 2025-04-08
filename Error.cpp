@@ -119,7 +119,7 @@ void catprintf(std::string &s, const char * msg, ...)
   va_start(ap, msg);
 
   char buf[1000];
-  vsprintf(buf, msg, ap);
+  vsnprintf(buf, sizeof(buf), msg, ap);
 
   s += buf;
   va_end(ap);

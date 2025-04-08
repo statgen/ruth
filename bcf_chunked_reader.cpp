@@ -99,7 +99,7 @@ bool BCFChunkedReader::jump_to(const char* chr, int32_t pos1) {
   //notice("[%s:%d %s] Finished load_index()", __FILE__, __LINE__, __PRETTY_FUNCTION__);  
 
   char buf[65536];
-  sprintf(buf,"%s:%d-%d",chr, pos1, end);
+  snprintf(buf, sizeof(buf), "%s:%d-%d",chr, pos1, end);
   load_index();
   if ( ftype.format == bcf ) {
     //notice("[%s:%d %s] Querying %s", __FILE__, __LINE__, __PRETTY_FUNCTION__, buf);
@@ -239,7 +239,7 @@ bcf_hdr_t* BCFChunkedReader::get_hdr()
 bool BCFChunkedReader::initialize_current_interval() {
   if ( chunk.chunk_intervals.empty() || ( chunk.chunk_intervals.it->overlaps(*target_intervals.it) ) ) {
     char buf[65536];
-    sprintf(buf,"%s:%d-%d",target_intervals.it->chrom.c_str(),
+    snprintf(buf,sizeof(buf),"%s:%d-%d",target_intervals.it->chrom.c_str(),
 	    (chunk.chunk_intervals.empty() || chunk.chunk_intervals.it->beg1 < target_intervals.it->beg1 ) ? target_intervals.it->beg1 : chunk.chunk_intervals.it->beg1,
 	    (chunk.chunk_intervals.empty() || chunk.chunk_intervals.it->end0 > target_intervals.it->end0 ) ? target_intervals.it->end0 : chunk.chunk_intervals.it->end0);
     load_index();

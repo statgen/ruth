@@ -24,7 +24,7 @@ int32_t main(int32_t argc, char** argv) {
   bool lrtTest  = false;
   bool lrtEM    = false;  
   std::string field;
-  double gtError = 0.005;
+  double gtError = 1e-20;
   double maxLambda = 1.0;
 
   bfr.vfilt.maxAlleles = 2;
